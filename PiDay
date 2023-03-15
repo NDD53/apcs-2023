@@ -1,0 +1,13 @@
+public class PiDay {
+    public static double piDay(int n) {
+      if(n>=100){
+        return 0;
+      }
+        return (((n%4)-2.0)*(4.0/((n-1)*(n)*(n+1))) + piDay(n+2));
+    }
+
+    public static void main(String args[]) {
+        double pi = piDay(3) + 3.0 ;
+        System.out.println("pi = " + pi);
+    }
+}
