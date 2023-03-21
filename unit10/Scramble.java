@@ -86,7 +86,7 @@ public class Scramble {
         int n = arr.length;
         // loops through the array in reverse order
         for(int i = n-1; i>0; i--){
-            // chooses the index of the number to swap with
+            // chooses the index of the number to swap with 
             int j = (int)Math.floor(Math.random()*(i+1));
             int k = arr[j];
             arr[j]=arr[i];
