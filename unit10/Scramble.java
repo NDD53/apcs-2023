@@ -1,6 +1,8 @@
 package unit10;
 
 import java.util.Arrays;
+import java.util.Random;
+import java.math.*;
 
 public class Scramble {
 
@@ -74,12 +76,22 @@ public class Scramble {
     }
 
     /**
-     * TODO how does this function work?
+     * Loops through the array starting at the end, replacing the number on the 
+     * end with a random number in the array to the left of the index (inclusive).
+     * This "sets" the number after it has been looped past.
      * 
      * @param arr array of integers to shuffle
      */
     public static void shuffle(int arr[]) {
-        // TODO
+        int n = arr.length;
+        for(int i = n-1; i>0; i--){
+            // chooses the index of the number to swap with
+            int j = (int)Math.floor(Math.random()*(i+1));
+            // swaps the numbers at index i and j
+            int k = arr[j];
+            arr[j]=arr[i];
+            arr[i]=k;
+        }
     }
 
     public static void main(String args[]) {
