@@ -88,7 +88,6 @@ public class Scramble {
         for(int i = n-1; i>0; i--){
             // chooses the index of the number to swap with
             int j = (int)Math.floor(Math.random()*(i+1));
-            // swaps the numbers at index i and j
             int k = arr[j];
             arr[j]=arr[i];
             arr[i]=k;
