@@ -34,7 +34,7 @@ public class PuzzleSolution {
             }
 
         }
-
+        // dummy return that will never be used
         return fin;
     }
     public static void main(String[] args) {
