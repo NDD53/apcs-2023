@@ -1,20 +1,41 @@
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.sound.sampled.SourceDataLine;
 
 public class SpellingBee {
 
     private char[] letters;
-    private char mustUse;
+    private static char mustUse;
+    private static String string;
 
-    // TODO construct me!
+    public SpellingBee(char[] letters, char mustUse) {
+        this.letters = letters;
+        this.mustUse = mustUse;
+        string = "";
+        for(int i = 0; i<letters.length; i++){
+            string += letters[i];
+        }
+    }
 
-    public boolean checkWord(String word) {
-        // TODO implement me!
+    public static boolean checkWord(String word) {
+        if(word.indexOf(mustUse) == -1 || word.length() < 4){
+            return false;
+        }
+        for(int a = 0; a < word.length(); a++){
+            if(string.indexOf(word.charAt(a))==-1){
+                return false;
+            }
+        }
         return true;
     }
+
 
     /**
      * Loads the contents of file "filename" as a String.
@@ -39,12 +60,29 @@ public class SpellingBee {
     public static void main(String[] args) {
         String[] words = loadFile("words_dropped.txt").split("\n");
         System.out.println("Loaded " + words.length + " words");
-        // TODO solve me!
-        // SpellingBee bee = new SpellingBee("ranglty".toCharArray(), 'y');
-
-        // TODO sort words!
-
-        // TODO what position in the sorted list is the word "search" ?
-
+        SpellingBee bee = new SpellingBee("ranglty".toCharArray(), 'y');
+        int n = 0;
+        for(String test : words){
+            if(checkWord(test)){
+                n++;
+            }
+        }
+        String[] checked = new String[n];
+        for(int a = 0; a<words.length; a++){
+            if(checkWord(words[a])){
+                checked[n-1] = words[a];
+                n--;
+            }
+        }
+        Arrays.sort(checked);
+        System.out.println(Arrays.toString(checked));
+        int i = 0;
+        for(String a : words){
+            i++;
+            if(a.equals("search")){
+                System.out.println("Found \"seaarch\" at " + i);
+            }
+        }
     }
 }
+
