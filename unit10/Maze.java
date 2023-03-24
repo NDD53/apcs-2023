@@ -15,8 +15,13 @@ public class Maze {
      * @param line the values to be placed in the maze.
      */
     public Maze(int rows, int cols, String line) {
-        // TODO part a
-
+        maze = new char[rows][cols];
+        for( char[] a : maze){
+            for(char b : a){
+                b = line.charAt(0);
+                line = line.substring(1);
+            }
+        }
     }
 
     /**
