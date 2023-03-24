@@ -25,22 +25,22 @@ public class PuzzleSolutions {
                 j += fin[w]*arr[w];
             }
             if(j==n){
-                ret.add(fin);
+                ret.add(fin.clone());
             }
         }
         return ret;   
     }
     public static void main(String[] args) {
         System.out.println("");
-        int target = 0;
-        int[] arr = {2,3,4,5,6};
+        int target = 1;
+        int[] arr = {2,3,4,5,6,7};
         ArrayList<int[]> pri = puzzler(arr,target);
         System.out.println("Target number: " + target);
         System.out.println("Initial array:");
         System.out.println(Arrays.toString(arr));
         System.out.println("List of all solutions:");
-        for(int[] row : pri){
-            System.out.println(Arrays.toString(row));
+        for(int m = 0; m < pri.size(); m++){
+            System.out.println(Arrays.toString(pri.get(m)));
         }
     }
 }
