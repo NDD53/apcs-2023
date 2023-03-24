@@ -32,8 +32,8 @@ public class PuzzleSolutions {
     }
     public static void main(String[] args) {
         System.out.println("");
-        int target = 11;
-        int[] arr = {1,2,3,4,5,6};
+        int target = 0;
+        int[] arr = {2,3,4,5,6};
         ArrayList<int[]> pri = puzzler(arr,target);
         System.out.println("Target number: " + target);
         System.out.println("Initial array:");
