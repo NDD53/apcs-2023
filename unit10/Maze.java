@@ -6,74 +6,60 @@ import java.util.stream.Collectors;
 public class Maze {
     private boolean solution;
     private char[][] maze;
+    private String ans;
 
-    /**
-     * Instantiates a Maze instance based on the provided arguments
-     * 
-     * @param rows the number of rows
-     * @param cols the number of columns
-     * @param line the values to be placed in the maze.
-     */
     public Maze(int rows, int cols, String line) {
         maze = new char[rows][cols];
-        for( char[] a : maze){
-            for(char b : a){
-                b = line.charAt(0);
+        solution = false;
+        for( int r = 0 ; r < rows ; r++){
+            for( int c = 0 ; c < cols ; c++){
+                maze[r][c] = line.charAt(0);
                 line = line.substring(1);
             }
         }
+        ans = "";
     }
 
-    /**
-     * @return the starting coordinates as "r c"
-     */
     public String getStart() { /* Not shown, plz ignore implementation */
         int z = Arrays.stream(maze).map(String::new).collect(Collectors.joining("")).indexOf('@');
         return "" + z / maze[0].length + " " + z % maze[0].length;
     }
 
-    /**
-     * @return the ending coordinates as "r c"
-     */
     public String getEnd() { /* Not shown, plz ignore implementation */
         int z = Arrays.stream(maze).map(String::new).collect(Collectors.joining("")).indexOf('$');
         return "" + z / maze[0].length + " " + z % maze[0].length;
     }
 
-    /**
-     * Uses recursion to see if the maze has a solution or not.
-     * 
-     * Suggested algorithm:
-     * if R and C are in bounds and spot is !#
-     * - if you are at $:
-     * - - set has a solution
-     * - else:
-     * - - mark spot as checked
-     * - - recur up
-     * - - recur down
-     * - - recur left
-     * - - recur right
-     * 
-     * @param r current row index
-     * @param c current column index
-     */
-    private void check(int r, int c) {
-        // TODO part b
-
+    private void check(int r, int c, String w) {
+        if( 0<=c && c<maze[0].length && 0<=r && r<maze.length && maze[r][c]!=('#') && maze[r][c]!=('?')){
+            if(maze[r][c] == '$'){
+                solution = true;
+                ans = w;
+                return;
+            }
+            maze[r][c] = '?';
+            check(r+1,c,w+"⌄");
+            check(r-1,c,w+"^");
+            check(r,c+1,w+">");
+            check(r,c-1,w+"<");
+        }
     }
 
-    /**
-     * Determines if there is a solution (a path of '.') for this maze.
-     * 
-     * @return true if the maze has a path from Start (@) to End ($).
-     */
     public boolean hasSolution() {
-        // TODO part c
-        return false; // replace me!
-
+        String a = getStart();
+        int s = a.indexOf(" ");
+        int r = Integer.parseInt(a.substring(0, s));
+        int c = Integer.parseInt(a.substring(s+1));
+        check(r,c,"");
+        return solution;
     }
 
-    // HINT overriding toString may be handy. :)
+    public String toString(){
+        if(solution){
+            return "a solution is " + ans;
+        }
+        return "there is no solution";
+    }
 
     public static void check(boolean test) throws AssertionError {
         if (!test)
@@ -83,27 +69,35 @@ public class Maze {
     public static void main(String[] args) {
         Maze example = new Maze(3, 3, "#.@.....$");
         check(example.hasSolution());
+        System.out.println(example);
 
         Maze case1 = new Maze(5, 7, ".#.#....#.#.##@.....$#...#.##..#...");
         check(case1.hasSolution());
+        System.out.println(case1);
 
         Maze case2 = new Maze(4, 4, ".#.$.##..##.@..#");
         check(!case2.hasSolution());
+        System.out.println(case2);
 
         Maze test = new Maze(3, 3, "#.@.....$");
         check(test.hasSolution());
+        System.out.println(test);
 
         test = new Maze(3, 3, "##@#####$");
         check(!test.hasSolution());
+        System.out.println(test);
 
         test = new Maze(3, 3, "##@#..#.$");
         check(test.hasSolution());
+        System.out.println(test);
 
         test = new Maze(3, 3, "#.@#.##.$");
         check(test.hasSolution());
+        System.out.println(test);
 
         test = new Maze(3, 3, "##@#.##.$");
         check(!test.hasSolution());
+        System.out.println(test);
 
         System.out.println("Happy Panda! \uD83D\uDC3C");
 
