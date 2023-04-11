@@ -11,12 +11,10 @@ import javax.sound.sampled.SourceDataLine;
 
 public class SpellingBee {
 
-    private char[] letters;
     private static char mustUse;
     private static String string;
 
     public SpellingBee(char[] letters, char mustUse) {
-        this.letters = letters;
         this.mustUse = mustUse;
         string = "";
         for(int i = 0; i<letters.length; i++){
@@ -61,27 +59,18 @@ public class SpellingBee {
         String[] words = loadFile("words_dropped.txt").split("\n");
         System.out.println("Loaded " + words.length + " words");
         SpellingBee bee = new SpellingBee("ranglty".toCharArray(), 'y');
-        int n = 0;
         for(String test : words){
             if(checkWord(test)){
-                n++;
+                System.out.println(test);
             }
         }
-        String[] checked = new String[n];
-        for(int a = 0; a<words.length; a++){
-            if(checkWord(words[a])){
-                checked[n-1] = words[a];
-                n--;
-            }
-        }
-        Arrays.sort(checked);
-        System.out.println(Arrays.toString(checked));
+        Arrays.sort(words);
         int i = 0;
         for(String a : words){
-            i++;
             if(a.equals("search")){
-                System.out.println("Found \"seaarch\" at " + i);
+                System.out.println("Found \"search\" at " + i);
             }
+            i++;
         }
     }
 }
