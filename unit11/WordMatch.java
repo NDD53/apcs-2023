@@ -12,9 +12,9 @@ public class WordMatch {
     public int scoreGuess(String guess) {
         int s = 0;
         int l = guess.length();
-        for(int i = 0; i<secret.length()-l+1; i++){
-            if(secret.substring(i, i+l).equals(guess)){
-                s += l*l;
+        for (int i = 0; i < secret.length() - l + 1; i++) {
+            if (secret.substring(i, i + l).equals(guess)) {
+                s += l * l;
             }
         }
         return s;
@@ -25,14 +25,14 @@ public class WordMatch {
         String b = guess2;
         int as = scoreGuess(a);
         int bs = scoreGuess(b);
-        if(as>bs){
+        if (as > bs) {
             return a;
         }
-        if(bs>as){
+        if (bs > as) {
             return b;
         }
         int d = a.compareTo(b);
-        if(d<0){
+        if (d < 0) {
             return b;
         }
         return a;
