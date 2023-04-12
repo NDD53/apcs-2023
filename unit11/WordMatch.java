@@ -31,16 +31,11 @@ public class WordMatch {
         if(bs>as){
             return b;
         }
-        if(as==bs){
-            int d = a.compareTo(b);
-            if(d<0){
-                return b;
-            }
-            else{ 
-                return a;
-            }
+        int d = a.compareTo(b);
+        if(d<0){
+            return b;
         }
-        return "";
+        return a;
     }
 
     public static void parta1() {
