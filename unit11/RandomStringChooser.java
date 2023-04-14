@@ -11,7 +11,7 @@ public class RandomStringChooser {
 
     public RandomStringChooser(String[] words){
             arr = new ArrayList<String>();
-            for(int i = 0; i<words.length; i++){
+            for(int i = 0; i<words.length; i++) {
                 arr.add(words[i]);
             }
         }
