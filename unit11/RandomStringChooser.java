@@ -9,22 +9,22 @@ import java.util.Arrays;
 public class RandomStringChooser {
     private ArrayList<String> arr;
 
-    public RandomStringChooser(String[] words){
-            arr = new ArrayList<String>();
-            for(int i = 0; i<words.length; i++) {
-                arr.add(words[i]);
-            }
+    public RandomStringChooser(String[] words) {
+        arr = new ArrayList<String>();
+        for (int i = 0; i < words.length; i++) {
+            arr.add(words[i]);
         }
-        public String getNext(){
-            int i = (int)(Math.random() * arr.size());
-            if(arr.size()==0){
-                return "NONE";
-            }
-            String temp = arr.get(i);
-            arr.remove(i);
-            return temp;
+    }
+
+    public String getNext() {
+        int i = (int) (Math.random() * arr.size());
+        if (arr.size() == 0) {
+            return "NONE";
         }
-    
+        String temp = arr.get(i);
+        arr.remove(i);
+        return temp;
+    }
 
     static void check(boolean test) throws AssertionError {
         if (!test)
@@ -32,31 +32,31 @@ public class RandomStringChooser {
     }
 
     public static void main(String[] args) {
-         String[] wordArray = { "wheels", "on", "the", "bus" };
-         RandomStringChooser sChooser = new RandomStringChooser(wordArray);
-         for (int k = 0; k < 6; k++) {
-         String next = sChooser.getNext();
-         System.out.print(next + " ");
-         if (k < 4)
-         check(Arrays.stream(wordArray).anyMatch(next::equals));
-         else
-         check(next.equals("NONE"));
+        String[] wordArray = { "wheels", "on", "the", "bus" };
+        RandomStringChooser sChooser = new RandomStringChooser(wordArray);
+        for (int k = 0; k < 6; k++) {
+            String next = sChooser.getNext();
+            System.out.print(next + " ");
+            if (k < 4)
+                check(Arrays.stream(wordArray).anyMatch(next::equals));
+            else
+                check(next.equals("NONE"));
 
-         }
-         System.out.println();
+        }
+        System.out.println();
 
-         String word = "cat";
-         RandomLetterChooser letterChooser = new RandomLetterChooser(word);
-         for (int k = 0; k < 4; k++) {
-         String next = letterChooser.getNext();
-         System.out.print(next);
-         if (k < 3)
-         check(word.indexOf(next) != -1);
-         else
-         check(next.equals("NONE"));
-         }
-         System.out.println();
-         System.out.println("Happy Panda! \uD83D\uDC3C");
+        String word = "cat";
+        RandomLetterChooser letterChooser = new RandomLetterChooser(word);
+        for (int k = 0; k < 4; k++) {
+            String next = letterChooser.getNext();
+            System.out.print(next);
+            if (k < 3)
+                check(word.indexOf(next) != -1);
+            else
+                check(next.equals("NONE"));
+        }
+        System.out.println();
+        System.out.println("Happy Panda! \uD83D\uDC3C");
     }
 }
 
