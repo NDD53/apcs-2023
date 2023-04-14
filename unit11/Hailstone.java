@@ -33,8 +33,15 @@ public class Hailstone {
      */
 
     public static int hailstoneLength(int n) {
-        /* to be implemented in part (a) */
-        return -1; // replace me
+        int count = 1;
+        for (; n != 1; count++) {
+            if (n % 2 == 0) {
+                n /= 2;
+            } else {
+                n = n * 3 + 1;
+            }
+        }
+        return count;
     }
 
     /**
@@ -49,8 +56,10 @@ public class Hailstone {
      * Precondition: n > 0
      */
     public static boolean isLongSeq(int n) {
-        /* to be implemented in part (b) */
-        return false; // replace me
+        if (hailstoneLength(n) > n) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -60,8 +69,13 @@ public class Hailstone {
      * Precondition: n > 0
      */
     public static double propLong(int n) {
-        /* to be implemented in part (c) */
-        return 0; // replace me
+        int count = 0;
+        for (int k = 1; k <= n; k++) {
+            if (isLongSeq(k)) {
+                count++;
+            }
+        }
+        return count / (double) n;
     }
 
     // There may be instance variables, constructors, and methods not shown.
