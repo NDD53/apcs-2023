@@ -1,6 +1,7 @@
 package unit11;
 
 import unit10.Recur;
+import java.util.ArrayList;
 
 public class EulerFriday {
 
@@ -30,13 +31,13 @@ public class EulerFriday {
         System.out.println(sum);
     }
 
-    public static void three() { // it is bad
+    public static void three() {
         long a = 600851475143l;
         long out = 0l;
         for (long i = 2l; i < a; i++) {
             for (; a % i == 0;) {
                 a /= i;
-                out = i;
+                out = a;
             }
         }
         System.out.println(out);
@@ -54,16 +55,93 @@ public class EulerFriday {
         System.out.println(out);
     }
 
-    public static void five() {
-        System.out.println(2 * 2 * 2 * 2 * 3 * 3 * 5 * 7 * 11 * 13 * 17 * 19);
+    /*
+     * finds and outprints the lcm of all the numbers from 1 to n inclusive
+     * typing out 2*2*2*2*3*3*5*7*11*13*17*19 seemed like cheating
+     */
+    public static void five(int n) {
+        if (n == 1) {
+            System.out.println("1");
+            return;
+        }
+        if (n == 2) {
+            System.out.println("2");
+            return;
+        }
+        ArrayList<Integer> primes = new ArrayList<Integer>();
+        primes.add(2);
+        primes.add(3);
+        for (int i = 3; i <= n; i += 2) {
+            for (int k = 3; k < i; k++) {
+                if (i % k == 0) {
+                    break;
+                }
+                if (k == i - 1) {
+                    primes.add(i);
+                }
+            }
+        }
+        long out = 1l;
+        for (int prime : primes) {
+            int k = 1;
+            for (; k <= n; k *= prime) {
+            }
+            out *= k / prime;
+        }
+        System.out.println(out);
     }
 
-    public static void main(String[] args) {
-        three();
-
+    public static void six() {
+        int[] nums = new int[100];
+        for (int i = 0; i < 100; i++) {
+            nums[i] = i + 1;
+        }
+        long sumOfSquares = 0l;
+        long squareOfSum = 0l;
+        for (int i : nums) {
+            sumOfSquares += i * i;
+            squareOfSum += i;
+        }
+        squareOfSum *= squareOfSum;
+        System.out.println(squareOfSum - sumOfSquares);
     }
 
-    static int[] prob8scaffold() {
+    public static void seven() {
+        // similar code from five()
+        ArrayList<Integer> primes = new ArrayList<Integer>();
+        primes.add(2);
+        primes.add(3);
+        for (int i = 3; primes.size() < 10001; i += 2) {
+            for (int k = 3; k < i; k++) {
+                if (i % k == 0) {
+                    break;
+                }
+                if (k == i - 1) {
+                    primes.add(i);
+                }
+            }
+        }
+        System.out.println(primes.get(10000));
+    }
+
+    public static void eight() { // this is wrong, but I am not seeing it.
+        // thanks for the code!
+        int[] nums = eightScaffold();
+        int out = 0;
+        int test = 1;
+        for (int k = 0; k < nums.length - 13; k++) {
+            test = 1;
+            for (int i = k; i < k + 13; i++) {
+                test *= nums[i];
+            }
+            if (test > out) {
+                out = test;
+            }
+        }
+        System.out.println(out);
+    }
+
+    public static int[] eightScaffold() {
         // woo java 13 supports multi-line strings!
         String lines = """
                 73167176531330624919225119674426574742355349194934
@@ -97,4 +175,8 @@ public class EulerFriday {
         return nums;
     }
 
+    public static void main(String[] args) {
+        eight();
+
+    }
 }
