@@ -127,10 +127,10 @@ public class EulerFriday {
     public static void eight() { // this is wrong, but I am not seeing it.
         // thanks for the code!
         int[] nums = eightScaffold();
-        int out = 0;
-        int test = 1;
+        long out = 0l;
+        long test = 1l;
         for (int k = 0; k < nums.length - 13; k++) {
-            test = 1;
+            test = 1l;
             for (int i = k; i < k + 13; i++) {
                 test *= nums[i];
             }
