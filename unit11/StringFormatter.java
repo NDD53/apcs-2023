@@ -13,8 +13,11 @@ public class StringFormatter {
      * only.
      */
     public static int totalLetters(List<String> wordList) {
-        // TODO part (a)
-        return -1; // replace me!
+        int c = 0;
+        for (String a : wordList) {
+            c += a.length();
+        }
+        return c;
     }
 
     /**
@@ -24,10 +27,12 @@ public class StringFormatter {
      * only.
      * formattedLen is large enough for all the words and gaps.
      */
-    public static int basicGapWidth(List<String> wordList,
-            int formattedLen) {
-        // TODO part (b)
-        return -1; // replace me!
+    public static int basicGapWidth(List<String> wordList, int formattedLen) {
+        int a = totalLetters(wordList);
+        int b = wordList.size() - 1;
+        int c = formattedLen - a;
+        int d = c / b;
+        return d;
     }
 
     /**
@@ -43,8 +48,23 @@ public class StringFormatter {
      * question.
      */
     public static String format(List<String> wordList, int formattedLen) {
-        // TODO part (c)
-        return ""; // replace me!
+        int a = leftoverSpaces(wordList, formattedLen);
+        int b = basicGapWidth(wordList, formattedLen);
+        int c = wordList.size();
+        String out = "";
+        for (int i = 0; c != 1; i++) {
+            out += wordList.get(i);
+            c--;
+            for (int k = 0; k < b; k++) {
+                out += " ";
+            }
+            if (a != 0) {
+                out += " ";
+                a--;
+            }
+        }
+        out += wordList.get(wordList.size() - 1);
+        return out;
     }
 
     /**
@@ -68,13 +88,30 @@ public class StringFormatter {
     }
 
     public static void main(String[] args) {
+
+
+
+        // The checker did not include the correct number of spaces between the words
+        // I commented out the old checks and added the correct one
+
+
+
+
         List<String> wordList = Arrays.asList(new String[] { "GREEN", "EGGS", "AND", "HAM" });
+
+        // check(format(wordList, 20).equals("GREEN EGGS AND HAM"));
         check(format(wordList, 20).equals("GREEN  EGGS  AND HAM"));
+
         wordList = Arrays.asList(new String[] { "AP", "COMP", "SCI", "ROCKS" });
+
+        // check(format(wordList, 20).equals("AP COMP SCI ROCKS"));
         check(format(wordList, 20).equals("AP  COMP  SCI  ROCKS"));
+
         wordList = Arrays.asList(new String[] { "BEACH", "BALL" });
         check(totalLetters(wordList) == 9);
         check(basicGapWidth(wordList, 20) == 11);
+
+        // check(format(wordList, 20).equals("BEACH BALL"));
         check(format(wordList, 20).equals("BEACH           BALL"));
 
         System.out.println("Happy Panda! \uD83D\uDC3C");
