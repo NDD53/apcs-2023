@@ -1,4 +1,4 @@
-package unit11;
+package unit11; 
 
 // 2021 FRQ #3
 // https://apcentral.collegeboard.org/media/pdf/ap21-frq-computer-science-a.pdf#page=10
@@ -43,13 +43,25 @@ public class ClubMembers {
     }
 
     public void addMembers(String[] names, int gradYear) {
-        // TODO a
+        for (String per : names) {
+            members.add(new MemberInfo(per, gradYear, true));
+        }
 
     }
 
     public ArrayList<MemberInfo> removeMembers(int year) {
-        // TODO b;
-        return null; // replace me
+        ArrayList<MemberInfo> out = new ArrayList<>();
+        for (MemberInfo test : members) {
+            if (test.inGoodStanding() && test.getGradYear() <= year) {
+                out.add(test);
+            }
+        }
+        for (int i = members.size() - 1; i >= 0; i--) {
+            if (members.get(i).getGradYear() <= year) {
+                members.remove(i);
+            }
+        }
+           return out;
     }
 
     public static void check(boolean test) throws AssertionError {
