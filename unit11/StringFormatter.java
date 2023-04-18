@@ -95,8 +95,7 @@ public class StringFormatter {
         // I commented out the old checks and added the correct one
 
 
-
-
+        
         List<String> wordList = Arrays.asList(new String[] { "GREEN", "EGGS", "AND", "HAM" });
 
         // check(format(wordList, 20).equals("GREEN EGGS AND HAM"));

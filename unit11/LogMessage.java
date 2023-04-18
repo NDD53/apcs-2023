@@ -1,4 +1,4 @@
-package unit11; 
+package unit11;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ public class LogMessage {
     public LogMessage(String message) {
         int split = message.indexOf(':');
         machineId = message.substring(0, split);
-        description = message.substring(split+1);
+        description = message.substring(split + 1);
     }
 
     /**
@@ -23,7 +23,7 @@ public class LogMessage {
      */
     public boolean containsWord(String keyword) {
         String theKey = " " + description + " ";
-        if(theKey.indexOf(" " + keyword + " ") != -1){
+        if (theKey.indexOf(" " + keyword + " ") != -1) {
             return true;
         }
         return false;

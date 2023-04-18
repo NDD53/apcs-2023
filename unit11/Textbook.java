@@ -27,23 +27,27 @@ class Book {
     // shown.
 }
 
-class Textbook extends Book{
+class Textbook extends Book {
     private int edition;
-    public Textbook(String a, double b, int c){
-        super(a,b);
+
+    public Textbook(String a, double b, int c) {
+        super(a, b);
         edition = c;
     }
-    public String getBookInfo(){
+
+    public String getBookInfo() {
         String a = super.getBookInfo();
         a += "-" + edition;
         return a;
     }
-    public int getEdition(){
+
+    public int getEdition() {
         return edition;
     }
-    public boolean canSubstituteFor(Textbook a){
-        if(getTitle().equals(a.getTitle())){
-            if(getEdition()>=a.getEdition()){
+
+    public boolean canSubstituteFor(Textbook a) {
+        if (getTitle().equals(a.getTitle())) {
+            if (getEdition() >= a.getEdition()) {
                 return true;
             }
         }

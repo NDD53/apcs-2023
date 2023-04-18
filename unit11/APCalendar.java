@@ -16,9 +16,9 @@ public class APCalendar {
 	 * Precondition: 0 <= year1 <= year2
 	 */
 	public static int numberOfLeapYears(int year1, int year2) {
-		int c  =0;
-		for(int i = year1; i<=year2; i++){
-			if(isLeapYear(i)){
+		int c = 0;
+		for (int i = year1; i <= year2; i++) {
+			if (isLeapYear(i)) {
 				c++;
 			}
 		}
@@ -50,8 +50,8 @@ public class APCalendar {
 	 */
 	public static int dayOfWeek(int month, int day, int year) {
 		int f = firstDayOfYear(year);
-		int d = dayOfYear(month,day,year);
-		return (d+f-1)%7; // replace me!
+		int d = dayOfYear(month, day, year);
+		return (d + f - 1) % 7; // replace me!
 	}
 
 	public static void check(boolean test) throws AssertionError {

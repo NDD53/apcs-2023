@@ -41,23 +41,25 @@ public class CombinedTable {
     private int seats;
     private SingleTable a;
     private SingleTable b;
-    public CombinedTable(SingleTable a, SingleTable b){
-        seats = a.getNumSeats()+b.getNumSeats()-2;
-        this.a=a;
-        this.b=b;
+
+    public CombinedTable(SingleTable a, SingleTable b) {
+        seats = a.getNumSeats() + b.getNumSeats() - 2;
+        this.a = a;
+        this.b = b;
     }
-    public boolean canSeat(int a){
-        if(seats>=a){
+
+    public boolean canSeat(int a) {
+        if (seats >= a) {
             return true;
         }
         return false;
     }
-    public double getDesireability(){
-        if(a.getHeight()==b.getHeight()){
-            return (a.getViewQuality()+b.getViewQuality())/2;
-        }
-        else{
-            return ((a.getViewQuality()+b.getViewQuality())/2) - 10;
+
+    public double getDesireability() {
+        if (a.getHeight() == b.getHeight()) {
+            return (a.getViewQuality() + b.getViewQuality()) / 2;
+        } else {
+            return ((a.getViewQuality() + b.getViewQuality()) / 2) - 10;
         }
     }
 

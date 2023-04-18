@@ -12,22 +12,22 @@ import java.util.Arrays;
  * the ted ed riddle series is great, and many of the riddles include polarity/binary concepts that are useful in comp sci
  */
 
-public class Hats{
+public class Hats {
     private String[] real;
     private String[] guess;
     private int[] realInt;
 
-    public Hats(String[] real){
+    public Hats(String[] real) {
         this.real = real;
         realInt = new int[real.length];
-        for(int i = 0; i<real.length; i++) {
+        for (int i = 0; i < real.length; i++) {
             realInt[i] = StrToInt(real[i]);
         }
         guess = new String[real.length];
     }
 
-    public int StrToInt(String s){
-        if(s.equals("black")){
+    public int StrToInt(String s) {
+        if (s.equals("black")) {
             return 1;
         }
         return 0;
@@ -35,89 +35,87 @@ public class Hats{
 
     public int sum(int[] arr) {
         int ret = 0;
-        for(int i = 0; i<arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             ret += arr[i];
         }
         return ret;
     }
 
-    public void run(int person, int polarity){
-        if(person==0){
+    public void run(int person, int polarity) {
+        if (person == 0) {
             return;
-        }
-        else if(person==real.length){
-            System.out.println("\nPerson " + person + " sees " + Arrays.toString(Arrays.copyOfRange(real, real.length-person+1, real.length)));
-            System.out.println("Converts to binary: " + Arrays.toString(Arrays.copyOfRange(realInt, realInt.length-person+1, realInt.length)));       
-            int sum = sum(Arrays.copyOfRange(realInt, realInt.length-person+1, realInt.length));
+        } else if (person == real.length) {
+            System.out.println("\nPerson " + person + " sees "
+                    + Arrays.toString(Arrays.copyOfRange(real, real.length - person + 1, real.length)));
+            System.out.println("Converts to binary: "
+                    + Arrays.toString(Arrays.copyOfRange(realInt, realInt.length - person + 1, realInt.length)));
+            int sum = sum(Arrays.copyOfRange(realInt, realInt.length - person + 1, realInt.length));
             System.out.println("Sums the array: " + sum);
             sum = sum % 2;
             System.out.println("Converts to binary " + sum);
-            if(sum==1){
+            if (sum == 1) {
                 System.out.println("Guesses \"black\", setting the polarity to 1");
-                guess[real.length-person] = "black";
+                guess[real.length - person] = "black";
                 polarity = 1;
-            }
-            else{
+            } else {
                 System.out.println("Guesses \"white\", setting the polarity to 0");
-                guess[real.length-person] = "white";
+                guess[real.length - person] = "white";
                 polarity = 0;
             }
-            run(person-1,sum);
-        }
-        else{
-            System.out.println("\nPerson " + person + " sees " + Arrays.toString(Arrays.copyOfRange(real, real.length-person+1, real.length)));
-            System.out.println("Converts to binary: " + Arrays.toString(Arrays.copyOfRange(realInt, realInt.length-person+1, realInt.length)));       
-            int sum = sum(Arrays.copyOfRange(realInt, realInt.length-person+1, realInt.length));
+            run(person - 1, sum);
+        } else {
+            System.out.println("\nPerson " + person + " sees "
+                    + Arrays.toString(Arrays.copyOfRange(real, real.length - person + 1, real.length)));
+            System.out.println("Converts to binary: "
+                    + Arrays.toString(Arrays.copyOfRange(realInt, realInt.length - person + 1, realInt.length)));
+            int sum = sum(Arrays.copyOfRange(realInt, realInt.length - person + 1, realInt.length));
             System.out.println("Sums the array: " + sum);
             sum = sum % 2;
             System.out.println("Converts to binary " + sum);
-            System.out.println("Person " + person + " sees a polarity of " + sum + " and expects a polarity of " + polarity);
-            if(sum != polarity){
-                polarity = (1+polarity)%2;
+            System.out.println(
+                    "Person " + person + " sees a polarity of " + sum + " and expects a polarity of " + polarity);
+            if (sum != polarity) {
+                polarity = (1 + polarity) % 2;
                 System.out.println("Guesses \"black\", changing the polarity to " + polarity);
-                guess[real.length-person] = "black";
-            }
-            else{
+                guess[real.length - person] = "black";
+            } else {
                 System.out.println("Guesses \"white\", keeping the polarity as " + polarity);
-                guess[real.length-person] = "white";
+                guess[real.length - person] = "white";
             }
-            run(person-1,polarity);
+            run(person - 1, polarity);
         }
     }
 
-    public void end(){
+    public void end() {
         System.out.println("\n");
         System.out.println("Real arrangment:    " + Arrays.toString(real));
         System.out.println("Guessed arrangment: " + Arrays.toString(guess));
         check();
     }
 
-    public void check(){
+    public void check() {
         int off = 0;
-        for(int i = 0; i<real.length; i++){
-            if(!real[i].equals(guess[i])){
+        for (int i = 0; i < real.length; i++) {
+            if (!real[i].equals(guess[i])) {
                 off++;
             }
         }
-        if(off!=1){
+        if (off != 1) {
             System.out.println("We had " + off + " wrong guesses");
-        }
-        else{
+        } else {
             System.out.println("We had " + off + " wrong guess");
         }
-        if(off<=1){
+        if (off <= 1) {
             System.out.println("Humanity is saved!");
-        }
-        else{
+        } else {
             System.out.println("Humanity is eaten by aliens (and I am going to fail my AP test)");
         }
     }
 
-
     public static void main(String[] args) {
-        String[] a = {"black","black","white","white","black","white","black","black","black","black"};
+        String[] a = { "black", "black", "white", "white", "black", "white", "black", "black", "black", "black" };
         Hats h = new Hats(a);
-        h.run(a.length,0);
+        h.run(a.length, 0);
         h.end();
     }
 }

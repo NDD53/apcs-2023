@@ -66,17 +66,17 @@ public class Game {
      */
     public int getScore() {
         int a = 0;
-        if(levelOne.goalReached()){
-            a+= levelOne.getPoints();
-            if(levelTwo.goalReached()){
-                a+= levelTwo.getPoints();
-                if(levelThree.goalReached()){
-                    a+= levelThree.getPoints();
+        if (levelOne.goalReached()) {
+            a += levelOne.getPoints();
+            if (levelTwo.goalReached()) {
+                a += levelTwo.getPoints();
+                if (levelThree.goalReached()) {
+                    a += levelThree.getPoints();
                 }
             }
         }
-        if(isBonus()){
-            a*=3;
+        if (isBonus()) {
+            a *= 3;
         }
         return a;
     }
@@ -89,11 +89,11 @@ public class Game {
     public int playManyTimes(int num) {
         int max = 0;
         int test = 0;
-        for(int i = 0; i<num;i++){
+        for (int i = 0; i < num; i++) {
             play();
             test = getScore();
-            if(test>=max){
-                max=test;
+            if (test >= max) {
+                max = test;
             }
         }
         return max;

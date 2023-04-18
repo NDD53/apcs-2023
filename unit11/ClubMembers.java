@@ -1,4 +1,4 @@
-package unit11; 
+package unit11;
 
 // 2021 FRQ #3
 // https://apcentral.collegeboard.org/media/pdf/ap21-frq-computer-science-a.pdf#page=10
@@ -61,7 +61,7 @@ public class ClubMembers {
                 members.remove(i);
             }
         }
-           return out;
+        return out;
     }
 
     public static void check(boolean test) throws AssertionError {
