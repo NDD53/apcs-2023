@@ -51,11 +51,15 @@ class Player {
 class Mexico {
     private ArrayList<Player> players;
 
-    public Mexico(ArrayList<String> playerNames) {
+    public Mexico(ArrayList<String> playerNames,int dice) {
         players = new ArrayList<Player>();
         for (int i = 0; i < playerNames.size(); i++) {
-            players.add(new Player(2, playerNames.get(i), 0));
+            players.add(new Player(dice, playerNames.get(i), 0));
         }
+    }
+    public static void check(int players) throws AssertionError {
+        if (players==0)
+            throw new AssertionError("There are no players.");
     }
 
     public String play() {
@@ -63,12 +67,7 @@ class Mexico {
         for (Player a : game) {
             a.setScore(6);
         }
-        if (game.size() == 0) {
-            return "There are no players.";
-        }
-        else {
-            System.out.println("\nLet the games begin!");
-        }
+        check(game.size());
         int count = 0;
         while (game.size() != 1) {
             count++;
@@ -82,7 +81,7 @@ class Mexico {
             for (int i = 0; i < scores.length; i++) {
                 scores[i] = game.get(i).getSum();
             }
-            int lowest = 13;
+            int lowest = Integer.MAX_VALUE;
             for (int i = 0; i < game.size(); i++) {
                 if (scores[i] < lowest) {
                     lowest = scores[i];
@@ -93,12 +92,12 @@ class Mexico {
             for (int i = 0; i < game.size(); i++) {
                 if (!(scores[i] == lowest)) {
                     test = false;
+                    break;
                 }
             }
             if (test) {
                 System.out.println("Round skipped");
-            }
-            else {
+            } else {
                 for (int i = game.size() - 1; i >= 0; i--) {
                     if (scores[i] == lowest) {
                         game.get(i).setScore(game.get(i).getScore() - 1);
@@ -111,7 +110,7 @@ class Mexico {
                 }
             }
         }
-        return "\n\n" + game.get(0).getName() + " wins!\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+        System.out.println("\n\n" + game.get(0).getName() + " wins!\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 }
 
@@ -119,7 +118,11 @@ public class ClassDice {
     public static void main(String[] args) {
         ArrayList<String> names = new ArrayList<String>();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcom to Mexico!");
+        System.out.println("Welcome to Mexico!");
+        System.out.println("How many dice do you want to roll?");
+        int dice = scanner.nextInt();
+        System.out.println("How many games do you want to play?");
+        int games = scanner.nextInt();
         System.out.println("Enter the player names. Enter \"-1\" to finish");
         String next = "";
         while (true) {
@@ -130,8 +133,10 @@ public class ClassDice {
             names.add(next);
         }
         scanner.close();
-        Mexico myGame = new Mexico(names);
-        System.out.println(myGame.play());
-        System.out.println(myGame.play());
+        System.out.println("\nLet the games begin!");
+        Mexico myGame = new Mexico(names,dice);
+        for(int i = 0; i<games; i++){
+            myGame.play();
+        }
     }
 }
