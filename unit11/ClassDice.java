@@ -63,6 +63,12 @@ class Mexico {
         for (Player a : game) {
             a.setScore(6);
         }
+        if (game.size() == 0) {
+            return "There are no players.";
+        }
+        else {
+            System.out.println("\nLet the games begin!");
+        }
         int count = 0;
         while (game.size() != 1) {
             count++;
@@ -105,7 +111,7 @@ class Mexico {
                 }
             }
         }
-        return "\n\n\n" + game.get(0).getName() + " wins!";
+        return "\n\n" + game.get(0).getName() + " wins!\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
     }
 }
 
@@ -124,13 +130,7 @@ public class ClassDice {
             names.add(next);
         }
         scanner.close();
-        System.out.println("\nLet the games begin!");
         Mexico myGame = new Mexico(names);
-        System.out.println(myGame.play());
-        System.out.println(myGame.play());
-        System.out.println(myGame.play());
-        System.out.println(myGame.play());
-        System.out.println(myGame.play());
         System.out.println(myGame.play());
         System.out.println(myGame.play());
     }
