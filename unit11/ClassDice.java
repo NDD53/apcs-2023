@@ -51,23 +51,19 @@ class Player {
 class Mexico {
     private ArrayList<Player> players;
 
-    public Mexico(ArrayList<String> playerNames,int dice) {
+    public Mexico(ArrayList<String> playerNames, int dice) {
         players = new ArrayList<Player>();
         for (int i = 0; i < playerNames.size(); i++) {
             players.add(new Player(dice, playerNames.get(i), 0));
         }
     }
-    public static void check(int players) throws AssertionError {
-        if (players==0)
-            throw new AssertionError("There are no players.");
-    }
+
 
     public String play() {
         ArrayList<Player> game = (ArrayList<Player>) players.clone();
         for (Player a : game) {
             a.setScore(6);
         }
-        check(game.size());
         int count = 0;
         while (game.size() != 1) {
             count++;
@@ -111,32 +107,53 @@ class Mexico {
             }
         }
         System.out.println("\n\n" + game.get(0).getName() + " wins!\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        return game.get(0).getName();
     }
 }
 
 public class ClassDice {
     public static void main(String[] args) {
-        ArrayList<String> names = new ArrayList<String>();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Mexico!");
         System.out.println("How many dice do you want to roll?");
         int dice = scanner.nextInt();
+        checkDice(dice);
         System.out.println("How many games do you want to play?");
         int games = scanner.nextInt();
+        checkGames(games);
         System.out.println("Enter the player names. Enter \"-1\" to finish");
         String next = "";
+        ArrayList<String> names = new ArrayList<String>();
+        checkPlayers(names);
         while (true) {
             next = scanner.nextLine();
             if (next.equals("-1")) {
                 break;
+            } else {
+                names.add(next);
             }
-            names.add(next);
         }
         scanner.close();
+        //checkPlayers(names);
         System.out.println("\nLet the games begin!");
-        Mexico myGame = new Mexico(names,dice);
-        for(int i = 0; i<games; i++){
+        Mexico myGame = new Mexico(names, dice);
+        for (int i = 0; i < games; i++) {
             myGame.play();
         }
+    }
+
+    public static void checkPlayers(ArrayList<String> players) throws AssertionError {
+        if (players.isEmpty())
+            throw new AssertionError("The number of players must be greater than 0");
+    }
+
+    public static void checkDice(int dice) throws AssertionError {
+        if (dice <= 0)
+            throw new AssertionError("The number of dice must be greater than 0");
+    }
+
+    public static void checkGames(int games) throws AssertionError {
+        if (games <= 0)
+            throw new AssertionError("The number of games must be greater than 0");
     }
 }
