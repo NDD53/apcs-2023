@@ -7,10 +7,10 @@ import java.util.Scanner;
 class Player {
     private int dice;
     private int[] rolls;
-    private String name;
+    private Object name;
     private int score;
 
-    public Player(int dice, String name, int score) {
+    public Player(int dice, Object name, int score) {
         this.dice = dice;
         rolls = new int[dice];
         this.name = name;
@@ -35,7 +35,7 @@ class Player {
         return sum;
     }
 
-    public String getName() {
+    public Object getName() {
         return name;
     }
 
@@ -51,15 +51,14 @@ class Player {
 class Mexico {
     private ArrayList<Player> players;
 
-    public Mexico(ArrayList<String> playerNames, int dice) {
+    public Mexico(ArrayList<Object> playerNames, int dice) {
         players = new ArrayList<Player>();
         for (int i = 0; i < playerNames.size(); i++) {
             players.add(new Player(dice, playerNames.get(i), 0));
         }
     }
 
-
-    public String play() {
+    public Object play() {
         ArrayList<Player> game = (ArrayList<Player>) players.clone();
         for (Player a : game) {
             a.setScore(6);
@@ -123,8 +122,8 @@ public class ClassDice {
         checkGames(games);
         System.out.println("Enter the player names. Enter \"-1\" to finish");
         String next = "";
-        ArrayList<String> names = new ArrayList<String>();
-        checkPlayers(names);
+        next = scanner.nextLine();
+        ArrayList<Object> names = new ArrayList<Object>();
         while (true) {
             next = scanner.nextLine();
             if (next.equals("-1")) {
@@ -133,16 +132,20 @@ public class ClassDice {
                 names.add(next);
             }
         }
+        checkPlayers(names);
         scanner.close();
-        //checkPlayers(names);
+        ArrayList<ArrayList<Object>> ohYeah = new ArrayList<ArrayList<Object>>();
+        ohYeah.set(0, (ArrayList<(Object>) names.clone());
         System.out.println("\nLet the games begin!");
         Mexico myGame = new Mexico(names, dice);
         for (int i = 0; i < games; i++) {
-            myGame.play();
+            Object a = myGame.play();
+            int b = ohYeah.get(0).indexOf(a);
+            ohYeah.get(1).set(b,(int)ohYeah.get(1).get(b)+1);
         }
     }
 
-    public static void checkPlayers(ArrayList<String> players) throws AssertionError {
+    public static void checkPlayers(ArrayList<Object> players) throws AssertionError {
         if (players.isEmpty())
             throw new AssertionError("The number of players must be greater than 0");
     }
