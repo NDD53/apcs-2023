@@ -37,8 +37,16 @@ public class AppointmentBook {
      * Preconditions: 1 <= period <= 8; 1 <= duration <= 60
      */
     public int findFreeBlock(int period, int duration) {
-        /* to be implemented in part (a) */
-
+        for (int i = 0; i <= 60 - duration; i++) {
+            for (int k = i; k < i + duration; k++) {
+                if (!isMinuteFree(period, k)) {
+                    break;
+                }
+                if (k == i - 1 + duration) {
+                    return i; // might have put "return k;" here on the AP test
+                }
+            }
+        }
         return -1;
     }
 
@@ -50,10 +58,14 @@ public class AppointmentBook {
      * returns false.
      * Preconditions: 1 <= startPeriod <= endPeriod <= 8; 1 <= duration <= 60
      */
-    public boolean makeAppointment(int startPeriod, int endPeriod,
-            int duration) {
-        /* to be implemented in part (b) */
-
+    public boolean makeAppointment(int startPeriod, int endPeriod, int duration) {
+        for (int per = startPeriod; per <= endPeriod; per++) {
+            int k = findFreeBlock(per, duration);
+            if (k != -1) {
+                reserveBlock(per, k, duration);
+                return true;
+            }
+        }
         return false;
     }
     // There may be instance variables, constructors, and methods that are not
@@ -115,7 +127,6 @@ public class AppointmentBook {
         check(book.makeAppointment(3, 4, 3) == true);
         check(book.makeAppointment(2, 4, 30) == false);
         System.out.println("Happy Panda! \uD83D\uDC3C");
-        book.printCalendar();
 
     }
 }
