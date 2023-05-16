@@ -57,7 +57,7 @@ public class ConnectFour {
     public int[][] makeMove() {
         int[] plays = getMoves();
         int col = findBestMove();
-        int[][] duplicate = board;
+        int[][] duplicate = board.clone();
         duplicate[plays[col]][col] = 1;
         return duplicate;
     }
@@ -85,7 +85,7 @@ public class ConnectFour {
     }
 
     public int getPlayScore(int row, int col) {
-        int[][] duplicate = board;
+        int[][] duplicate = board.clone();
         duplicate[row][col] = 1;
         return getBoardScore(duplicate);
     }
@@ -297,11 +297,11 @@ class Runner {
         int[][] board = { { 0, 0, 2, 0, 0, 0 }, { 0, 0, 1, 0, 0, 1 }, { 0, 0, 1, 0, 0, 1 }, { 0, 0, 2, 0, 1, 2 },
                 { 1, 0, 1, 0, 2, 2 }, { 2, 0, 2, 2, 1, 2 } };
         ConnectFour game = new ConnectFour(board);
-        int[][] newBoard = game.makeMove();
         for (int[] a : board) {
             System.out.println(Arrays.toString(a));
         }
         System.out.println("~~~~~~~~~~~~~~~~~~");
+        int[][] newBoard = game.makeMove();
         for (int[] a : newBoard) {
             System.out.println(Arrays.toString(a));
         }
