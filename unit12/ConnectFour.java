@@ -15,6 +15,7 @@ public class ConnectFour {
      * @return true if the space is not occupied
      */
     public boolean isEmpty(int row, int col) {
+        System.out.println("isEmpty");
         if (isValid(row, col) && board[row][col] == 0) {
             return true;
         }
@@ -27,6 +28,7 @@ public class ConnectFour {
      * @return true if the indexes are in the board
      */
     public boolean isValid(int row, int col) {
+        System.out.println("isValid");
         if (row > -1 && col > -1 && row < board.length && col < board[0].length) {
             return true;
         }
@@ -37,6 +39,7 @@ public class ConnectFour {
      * @return array of the possible locations for a move
      */
     public int[] getMoves() {
+        System.out.println("getMoves");
         int[] moves = new int[board[0].length];
         for (int col = 0; col < moves.length; col++) {
             boolean test = false;
@@ -55,28 +58,26 @@ public class ConnectFour {
     }
 
     public int[][] makeMove() {
+        System.out.println("makeMove");
         int[] plays = getMoves();
-        int col = findBestMove();
+        int col = findBestMove(plays);
         int[][] duplicate = board.clone();
         duplicate[plays[col]][col] = 1;
         return duplicate;
     }
 
-    public void setBoard(int[][] newBoard) {
-        board = newBoard;
-    }
-
     /**
      * @return the column of the best move
      */
-    public int findBestMove() {
-        int[] plays = getMoves();
+    public int findBestMove(int[] plays) {
+        System.out.println("findBestMove");
         int max = Integer.MIN_VALUE;
         int col = Integer.MIN_VALUE;
         for (int i = 0; i < plays.length; i++) {
             if (plays[i] != -1) {
-                if (getPlayScore(plays[i], i) > max) {
-                    max = getPlayScore(plays[i], i);
+                int k = getPlayScore(plays[i], i);
+                if (k > max) {
+                    max = k;
                     col = i;
                 }
             }
@@ -85,12 +86,14 @@ public class ConnectFour {
     }
 
     public int getPlayScore(int row, int col) {
+        System.out.println("getPlayScore");
         int[][] duplicate = board.clone();
         duplicate[row][col] = 1;
         return getBoardScore(duplicate);
     }
 
     public int getBoardScore(int[][] theBoard) {
+        System.out.println("getBoardScore");
         if (fourInARow(theBoard)) {
             return Integer.MAX_VALUE;
         }
@@ -109,6 +112,7 @@ public class ConnectFour {
      * @return true if there is a four in a row of 1s
      */
     public boolean fourInARow(int[][] theBoard) {
+        System.out.println("fourInARow");
         // top bottom
         for (int row = 0; row < theBoard.length - 3; row++) {
             for (int col = 0; col < theBoard[0].length; col++) {
@@ -182,6 +186,7 @@ public class ConnectFour {
      * @return - the count of consecutive 1s or 2s followed by an empty space
      */
     public int getConsecutive(int[][] theBoard, int player, int number) {
+        System.out.println("getConsecutive");
         int count = 0;
         // bottom up
         for (int row = number; row < theBoard.length; row++) {
