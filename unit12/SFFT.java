@@ -39,13 +39,25 @@ public class SFFT {
         if (matchFound) {
             System.out.println("Correct");
         } else {
-            System.out.println("Incorrect");
+            errors();
         }
     }
 
     public void clean() {
         user = user.replaceAll(" ", "");
         user = user.replaceAll("\\*", "");
+    }
+
+    public void errors() {
+        Pattern pattern = Pattern.compile(
+                "((([(][x][+][" + c + "][)][x|X])|([(][" + c + "][+][x][)][x|X]))(([(][y][+][" + b + "][)])|([(][" + b
+                        + "][+][y][)])))|((([(][y][+][" + b + "][)][x|X])|([(][" + b + "][+][y][)][x|X]))(([(][x][+]["
+                        + c + "][)])|([(][" + c + "][+][x][)])))");
+        Matcher matcher = pattern.matcher(user);
+        boolean matchFound = matcher.find();
+        if (matchFound) {
+            System.out.println("Do not put an x");
+        }
     }
 }
 
