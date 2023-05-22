@@ -7,16 +7,16 @@ import java.util.regex.Pattern;
 
 public class SFFT {
     // in the form axy + bx + cy + d
-    private int level;
     private int a, b, c, d;
     private String problem;
-    private ArrayList<String> solution;
     private String user;
     private Scanner scanner;
 
-    public SFFT(int level, Scanner scanner) {
-        this.level = level;
+    public SFFT(Scanner scanner) {
         this.scanner = scanner;
+    }
+
+    public void question(int level) {
         if (level == 1) {
             generateL1();
         }
@@ -56,15 +56,18 @@ public class SFFT {
         Matcher matcher = pattern.matcher(user);
         boolean matchFound = matcher.find();
         if (matchFound) {
-            System.out.println("Do not put an x");
+            System.out.println(
+                    "It appears you used the \"x\" symbol instead of \"*\" when multiplying. You need to stop doing this now. You will get marked down on tests and competitions for using an\"x\".");
         }
+
     }
 }
 
 class SFFTRunner {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        SFFT sfft = new SFFT(1, scanner);
+        SFFT sfft = new SFFT(scanner);
+        sfft.question(1);
         scanner.close();
     }
 }
