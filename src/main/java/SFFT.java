@@ -1,6 +1,3 @@
-package unit12;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,16 +47,13 @@ public class SFFT {
 
     public void errors() {
         Pattern pattern = Pattern.compile(
-                "((([(][x][+][" + c + "][)][x|X])|([(][" + c + "][+][x][)][x|X]))(([(][y][+][" + b + "][)])|([(][" + b
-                        + "][+][y][)])))|((([(][y][+][" + b + "][)][x|X])|([(][" + b + "][+][y][)][x|X]))(([(][x][+]["
-                        + c + "][)])|([(][" + c + "][+][x][)])))");
+                "((([(][x][+].[)][x|X])|([(].[+][x][)][x|X]))(([(][y][+].[)])|([(].[+][y][)])))|((([(][y][+].[)][x|X])|([(].[+][y][)][x|X]))(([(][x][+].[)])|([(].[+][x][)])))");
         Matcher matcher = pattern.matcher(user);
         boolean matchFound = matcher.find();
         if (matchFound) {
             System.out.println(
-                    "It appears you used the \"x\" symbol instead of \"*\" when multiplying. You need to stop doing this now. You will get marked down on tests and competitions for using an\"x\".");
+                    "It appears you used the \"x\" symbol instead of \"*\" when multiplying. You need to stop doing this now. You will get marked down on tests and competitions for using an \"x\".");
         }
-
     }
 }
 
