@@ -22,7 +22,10 @@ public class SFFT {
     public void generateL1() {
         a = 1;
         b = (int) (Math.random() * 6) + 4;
-        c = (int) (Math.random() * 6) + 4;
+        c = b;
+        while (c == b) {
+            c = (int) (Math.random() * 6) + 4;
+        }
         d = b * c;
         problem = "factor \"xy + " + b + "x + " + c + "y + " + d + "\"";
         System.out.println(problem);
@@ -54,6 +57,19 @@ public class SFFT {
             System.out.println(
                     "It appears you used the \"x\" symbol instead of \"*\" when multiplying. You need to stop doing this now. You will get marked down on tests and competitions for using an \"x\".");
         }
+        // new code test it
+        pattern = Pattern.compile("((([(][x][+][" + b + "][)])|([(][" + b + "][+][x][)]))(([(][y][+][" + c
+                + "][)])|([(][" + c + "][+][y][)])))|((([(][y][+][" + c + "][)])|([(][" + c + "][+][y][)]))(([(][x][+]["
+                + b + "][)])|([(][" + b + "][+][x][)])))");
+        matcher = pattern.matcher(user);
+        matchFound = matcher.find();
+        if (matchFound) {
+            System.out.println(
+                    "You reversed the order of the \"x\" and \"y\". If you put both the \"x\" and the " + b
+                            + " in the same set of parentheses, they can not be multiplied together to produce the " + b
+                            + "x term needed");
+        }
+        // end new code
     }
 }
 
