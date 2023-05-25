@@ -66,11 +66,23 @@ public class SFFT {
         System.out.println(problem);
         user = scanner.nextLine();
         clean();
+        return true;
     }
 
     public void clean() {
         user = user.replaceAll(" ", "");
         user = user.replaceAll("\\*", "");
+    }
+
+    public String parsy(String q) {
+        int w;
+        try {
+            w = Integer.parseInt(q.substring(0, 1));
+            return q.substring(2) + "+" + w;
+        }
+        catch (Exception e) {
+            return q;
+        }
     }
 
     public void moveCo() {
