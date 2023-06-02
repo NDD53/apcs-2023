@@ -3,6 +3,8 @@ package unit12;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SFFT {
     // in the form axy + bx + cy + d
@@ -74,28 +76,6 @@ public class SFFT {
         user = user.replaceAll("\\*", "");
     }
 
-    public String parsy(String q) {
-        int w;
-        try {
-            w = Integer.parseInt(q.substring(0, 1));
-            return q.substring(2) + "+" + w;
-        }
-        catch (Exception e) {
-            return q;
-        }
-    }
-
-    public void moveCo() {
-        // I am out of time
-        // You want to move the "x" "*" error into its own method, use an open/close
-        // paren counter
-        // In this method, call this first to find if they put an x outside, return this
-        // error
-        // Next, use a similiar open/close paren counter to find a coef, move it to the
-        // front
-        // You can then use essentially the same regex as before to test for this
-    }
-
     public void errors1() {
         Pattern pattern = Pattern.compile(
                 "((([(][x][+].[)][x|X])|([(].[+][x][)][x|X]))(([(][y][+].[)])|([(].[+][y][)])))|((([(][y][+].[)][x|X])|([(].[+][y][)][x|X]))(([(][x][+].[)])|([(].[+][x][)])))");
@@ -121,13 +101,77 @@ public class SFFT {
         }
         System.out.println("You are incorrect, and I don't know what your error is. You probably mistyped somthing.");
     }
+
+    public String subFactor(String expr) {
+        int a = -1;
+        int b = -1;
+        char v = '!';
+        String[] parts = expr.split("\\+");
+        for (String part : parts) {
+            try {
+                // maybe this is the constant part
+                b = Integer.parseInt(part);
+            } catch (NumberFormatException e) {
+                v = part.charAt(part.length() - 1);
+                a = 1;
+                if (part.length() > 1)
+                    try {
+                        a = Integer.parseInt(part.substring(0, part.length() - 1));
+                    } catch (NumberFormatException ee) {
+                        System.out.println("bad expr:" + part);
+                    }
+            }
+        }
+        return "" + (a > 0 ? "" + a + v + "+" : "") + b;
+    }
+
+    public List<String> parseExpression(String expression) {
+        List<String> factors = new ArrayList<String>();
+        int parenthesesCount = 0;
+        StringBuilder factorBuilder = new StringBuilder();
+        for (int i = 0; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+            if (c == '(') {
+                if (parenthesesCount == 0 && factorBuilder.length() != 0) {
+                    factors.add(factorBuilder.toString().trim());
+                    factorBuilder.setLength(0);
+                } else {
+                    factorBuilder.append(c);
+                }
+                parenthesesCount++;
+            } else if (c == ')') {
+                parenthesesCount--;
+                if (parenthesesCount == 0) {
+                    if (factorBuilder.toString().trim().charAt(0) == '(') {
+                        factors.add(factorBuilder.toString().trim().substring(1));
+                    } else {
+                        factors.add(factorBuilder.toString().trim());
+                    }
+                    factorBuilder.setLength(0);
+                } else {
+                    factorBuilder.append(c);
+                }
+            } else {
+                factorBuilder.append(c);
+            }
+        }
+        for (String factor : factors) {
+            if (factor.indexOf('(') != -1) {
+                List<String> hold = parseExpression(factor);
+                    for(String element : hold){
+                        factors.add(element);
+                    }
+            }
+        }
+        return factors;
+    }
 }
 
 class SFFTRunner {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         SFFT sfft = new SFFT(scanner);
-        sfft.question(1);
+        sfft.question(2);
         scanner.close();
     }
 }
