@@ -1,33 +1,38 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class SFFTdummy {
+public class SFFTparser {
     public static String subFactor(String expr) {
-        int a = -1;
-        int b = -1;
+        int a = Integer.MIN_VALUE;
+        int b = Integer.MIN_VALUE;
         char v = '!';
-        String[] parts = expr.split("\\+");
-        for (String part : parts) {
+        String[] parts;
+        boolean plus = (expr.indexOf('+') != -1);
+        parts = plus ? expr.split("\\+") : expr.split("-");
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
             try {
                 // maybe this is the constant part
-                b = Integer.parseInt(part);
+                b = (i == 1 && !plus) ? Integer.parseInt(part) * -1 : Integer.parseInt(part);
             } catch (NumberFormatException e) {
                 v = part.charAt(part.length() - 1);
-                a = 1;
-                if (part.length() > 1)
+                a = i == 1 && !plus ? -1 : 1;
+                if (part.length() > 1) {
                     try {
-                        a = Integer.parseInt(part.substring(0, part.length() - 1));
+                        String mult = part.substring(0, part.length() - 1);
+                        a *= (mult.equals("-") ? -1 : Integer.parseInt(mult));
                     } catch (NumberFormatException ee) {
                         System.out.println("bad expr:" + part);
                     }
+                }
             }
         }
-        return "" + (a > 0 ? "" + a + v + "+" : "") + b;
+        return "" + (a != Integer.MIN_VALUE ? "" + (a == 1 ? "" : (a == -1 ? "-" : a)) + v + (b >= 0 ? "+" : "") : "")
+                + b;
     }
 
     public static List<String> parseExpression(String expression) {
         List<String> factors = new ArrayList<String>();
-        List<String> ret = new ArrayList<String>();
         int parenthesesCount = 0;
         StringBuilder factorBuilder = new StringBuilder();
         for (int i = 0; i < expression.length(); i++) {
@@ -56,29 +61,35 @@ public class SFFTdummy {
                 factorBuilder.append(c);
             }
         }
-        for (;factors.size() > 0;) {
-            System.out.println("ur bad");
-            for (int i = factors.size()-1; i > -1; i--) {
-                System.out.println("ur dum");
+        for (; !noParen(factors);) {
+            for (int i = factors.size() - 1; i > -1; i--) {
                 String factor = factors.get(i);
                 if (factor.indexOf('(') != -1) {
-                    System.out.println("ur mean");
                     List<String> hold = parseExpression(factor);
                     for (String element : hold) {
                         factors.add(element);
                     }
-                } else {
-                    System.out.println("ur an idiot");
-                    ret.add(factor);
                     factors.remove(i);
                 }
             }
         }
+        for (int i = factors.size() - 1; i > -1; i--) {
+            factors.set(i, subFactor(factors.get(i)));
+        }
         return factors;
     }
 
+    public static boolean noParen(List<String> check) {
+        for (String element : check) {
+            if (element.indexOf('(') != -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        String a = "(1)(2(3(4+x)(2+x)))";
+        String a = "(1)(2(3(4-x)(2+6x)))(2+x)(x+2)(((((4x-20)))(3-3x)))";
         List<String> test = parseExpression(a);
         for (String factor : test) {
             System.out.println(factor);
