@@ -87,11 +87,11 @@ public class SFFTparser {
         return true;
     }
 
-    public static void main(String[] args) {
-        String a = "(1)(2(3(-4+x)(2+6x)))(2+x)(x+2)(((((4x-20)))(3+3x)))";
-        List<String> test = parseExpression(a);
-        for (String factor : test) {
-            System.out.println(factor);
-        }
-    }
+    // public static void main(String[] args) {
+    //     String a = "(1)(2(3(-4+x)(2+6x)))(2+x)(x+2)(((((4x-20)))(3+3x)))";
+    //     List<String> test = parseExpression(a);
+    //     for (String factor : test) {
+    //         System.out.println(factor);
+    //     }
+    // }
 }
