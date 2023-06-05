@@ -27,8 +27,7 @@ public class SFFTparser {
                 }
             }
         }
-        return "" + (a != Integer.MIN_VALUE ? "" + (a == 1 ? "" : (a == -1 ? "-" : a)) + v + (b >= 0 ? "+" : "") : "")
-                + b;
+        return "" + (a != Integer.MIN_VALUE ? "" + a + v + (b >= 0 ? "+" : "") : "")+ b;
     }
 
     public static List<String> parseExpression(String expression) {
@@ -89,7 +88,7 @@ public class SFFTparser {
     }
 
     public static void main(String[] args) {
-        String a = "(1)(2(3(4-x)(2+6x)))(2+x)(x+2)(((((4x-20)))(3-3x)))";
+        String a = "(1)(2(3(-4+x)(2+6x)))(2+x)(x+2)(((((4x-20)))(3+3x)))";
         List<String> test = parseExpression(a);
         for (String factor : test) {
             System.out.println(factor);
