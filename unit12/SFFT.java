@@ -77,14 +77,13 @@ public class SFFT {
     }
 
     public boolean generateL2() {
-        a = (int) ((Math.round(Math.random())*2-1)*((Math.random() * 8) + 2));
-        b = (int) (((Math.round(Math.random())*2-1)*(Math.random() * 6) + 4)) * a;
+        a = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2));
+        b = (int) (((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4))) * a;
         c = b;
         while (c == b) {
-            c = (int) ((Math.round(Math.random())*2-1)*(Math.random() * 6) + 4) * a;
+            c = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4)) * a;
         }
-        d = b * c * a;
-        System.out.println("a: " + a + " b: " + b + " c: " + c + " d: " + d);
+        d = b * c / a;
         problem = "factor \"" + a + "xy " + (b < 0 ? "" : "+ ") + b + "x " + (c < 0 ? "" : "+ ") + c + "y "
                 + (d < 0 ? "" : "+ ") + d + "\"";
         System.out.println(problem);
@@ -93,9 +92,18 @@ public class SFFT {
         List<String> stuff = parser.parseExpression(user);
         List<String> solution = new ArrayList<>();
         solution.add("" + a);
-        solution.add("X" + c);
-        solution.add("y" + b);
-        return true;
+        solution.add("1x" + (c / a > 0 ? "+" : "") + c / a);
+        solution.add("1y" + (b / a > 0 ? "+" : "") + b / a);
+        boolean correct = equalLists(stuff, solution);
+        if (correct) {
+            System.out.println("Correct");
+        } else {
+            System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
+            for(String str : stuff){
+                
+            }
+        }
+        return correct;
     }
 
     public void clean() {
@@ -144,15 +152,18 @@ class SFFTparser {
                 // maybe this is the constant part
                 b = (i == 1 && !plus) ? Integer.parseInt(part) * -1 : Integer.parseInt(part);
             } catch (NumberFormatException e) {
-                v = part.charAt(part.length() - 1);
-                a = i == 1 && !plus ? -1 : 1;
-                if (part.length() > 1) {
-                    try {
-                        String mult = part.substring(0, part.length() - 1);
-                        a *= (mult.equals("-") ? -1 : Integer.parseInt(mult));
-                    } catch (NumberFormatException ee) {
-                        System.out.println("bad expr:" + part);
+                try {
+                    v = part.charAt(part.length() - 1);
+                    a = i == 1 && !plus ? -1 : 1;
+                    if (part.length() > 1) {
+                        try {
+                            String mult = part.substring(0, part.length() - 1);
+                            a *= (mult.equals("-") ? -1 : Integer.parseInt(mult));
+                        } catch (NumberFormatException ee) {
+                            System.out.println("bad expr:" + part);
+                        }
                     }
+                } catch (Exception eee) {
                 }
             }
         }
