@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class SFFT {
-    // in the form axy + bx + cy + d
-    private int a, b, c, d;
+    // in the form axy + bx + cy + d = e???
+    private int a, b, c, d, e;
     private String problem;
     private String user;
     private Scanner scanner;
@@ -28,6 +28,9 @@ public class SFFT {
         if (level == 2) {
             out = generateL2();
         }
+        if (level == 3) {
+            out = generateL3();
+        }
         return out;
     }
 
@@ -41,6 +44,7 @@ public class SFFT {
         d = b * c;
         problem = "factor \"xy + " + b + "x + " + c + "y + " + d + "\"";
         System.out.println(problem);
+        System.out.println("Answer in the form \"(x+a)(y+b)\"");
         user = scanner.nextLine();
         clean();
         Pattern pattern = Pattern.compile("((([(][x][+][" + c + "][)])|([(][" + c + "][+][x][)]))(([(][y][+][" + b
@@ -57,24 +61,7 @@ public class SFFT {
         }
     }
 
-    public boolean equalLists(List<String> one, List<String> two) {
-        if (one == null && two == null) {
-            return true;
-        }
-
-        if ((one == null && two != null)
-                || one != null && two == null
-                || one.size() != two.size()) {
-            return false;
-        }
-
-        one = new ArrayList<String>(one);
-        two = new ArrayList<String>(two);
-
-        Collections.sort(one);
-        Collections.sort(two);
-        return one.equals(two);
-    }
+    
 
     public boolean generateL2() {
         a = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2));
@@ -87,6 +74,7 @@ public class SFFT {
         problem = "factor \"" + a + "xy " + (b < 0 ? "" : "+ ") + b + "x " + (c < 0 ? "" : "+ ") + c + "y "
                 + (d < 0 ? "" : "+ ") + d + "\"";
         System.out.println(problem);
+        System.out.println("Answer in the form \"a(x+b)(y+c)\"");
         user = scanner.nextLine();
         clean();
         List<String> stuff = parser.parseExpression(user);
@@ -95,21 +83,68 @@ public class SFFT {
         solution.add("1x" + (c / a > 0 ? "+" : "") + c / a);
         solution.add("1y" + (b / a > 0 ? "+" : "") + b / a);
         boolean correct = equalLists(stuff, solution);
-        if (correct) {
-            System.out.println("Correct");
-        } else {
+        if (!correct) {
             System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
-            for(String str : stuff){
-                
+            Pattern pattern = Pattern.compile(".+[x,y]");
+            Matcher matcher;
+            for (String str : stuff) {
+                matcher = pattern.matcher(str);
+                if (matcher.find()) {
+                    System.out.println(
+                            "Incorrect.\nMake sure that you have factored out coefficients if front of the \"x\" and \"y\" (including a \"-\").");
+                    return false;
+                }
             }
+            System.out.println("Incorrect");
+            return false;
         }
+        System.out.println("Correct");
+        return true;
+    }
+
+    public boolean generateL3() {
+        a = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2));
+        e = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2))*a;
+        b = (int) (((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4))) * a;
+        c = b;
+        while (c == b) {
+            c = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4)) * a;
+        }
+        d = b * c / a ;
+        problem = "factor \"" + a + "xy " + (b < 0 ? "" : "+ ") + b + "x " + (c < 0 ? "" : "+ ") + c + "y "
+                + (d < 0 ? "" : "+ ") + (d-e) + " = 0\"";
+        System.out.println(problem);
+        System.out.println("Answer in the form \"(x+a)(y+b)=c\"");
+        user = scanner.nextLine();
+        clean();
+        List<String> stuff = parser.parseExpression(user);
+        List<String> solution = new ArrayList<>();
+        solution.add("="+e/a);
+        solution.add("1x" + (c / a > 0 ? "+" : "") + c / a);
+        solution.add("1y" + (b / a > 0 ? "+" : "") + b / a);
+        boolean correct = equalLists(stuff, solution);
+        for(String str : solution){
+            System.out.println(str);
+        }
+        if (!correct) {
+            System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
+            // Pattern pattern = Pattern.compile(".+[x,y]");
+            // Matcher matcher;
+            // for (String str : stuff) {
+            //     matcher = pattern.matcher(str);
+            //     if (matcher.find()) {
+            //         System.out.println(
+            //                 "Incorrect.\nMake sure that you have factored out coefficients if front of the \"x\" and \"y\" (including a \"-\").");
+            //         return false;
+            //     }
+            // }
+            System.out.println("Incorrect");
+            return false;
+        }
+        System.out.println("Correct");
         return correct;
     }
 
-    public void clean() {
-        user = user.replaceAll(" ", "");
-        user = user.replaceAll("\\*", "");
-    }
 
     public void errors1() {
         Pattern pattern = Pattern.compile(
@@ -135,6 +170,28 @@ public class SFFT {
             return;
         }
         System.out.println("You are incorrect, and I don't know what your error is. You probably mistyped somthing.");
+    }
+    public void clean() {
+        user = user.replaceAll(" ", "");
+        user = user.replaceAll("\\*", "");
+    }
+    public boolean equalLists(List<String> one, List<String> two) {
+        if (one == null && two == null) {
+            return true;
+        }
+
+        if ((one == null && two != null)
+                || one != null && two == null
+                || one.size() != two.size()) {
+            return false;
+        }
+
+        one = new ArrayList<String>(one);
+        two = new ArrayList<String>(two);
+
+        Collections.sort(one);
+        Collections.sort(two);
+        return one.equals(two);
     }
 }
 
@@ -233,7 +290,7 @@ class SFFTRunner {
         SFFTparser parser = new SFFTparser();
         Scanner scanner = new Scanner(System.in);
         SFFT sfft = new SFFT(scanner, parser);
-        sfft.question(2);
+        sfft.question(3);
         scanner.close();
     }
 }
