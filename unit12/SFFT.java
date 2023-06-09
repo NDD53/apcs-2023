@@ -4,8 +4,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class SFFT {
     // in the form axy + bx + cy + d = e???
@@ -30,6 +32,9 @@ public class SFFT {
         }
         if (level == 3) {
             out = generateL3();
+        }
+        if (level == 4) {
+            out = generateL4();
         }
         return out;
     }
@@ -60,8 +65,6 @@ public class SFFT {
             return false;
         }
     }
-
-    
 
     public boolean generateL2() {
         a = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2));
@@ -104,40 +107,27 @@ public class SFFT {
 
     public boolean generateL3() {
         a = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2));
-        e = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2))*a;
+        e = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2)) * a;
         b = (int) (((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4))) * a;
         c = b;
         while (c == b) {
             c = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4)) * a;
         }
-        d = b * c / a ;
+        d = b * c / a;
         problem = "factor \"" + a + "xy " + (b < 0 ? "" : "+ ") + b + "x " + (c < 0 ? "" : "+ ") + c + "y "
-                + (d < 0 ? "" : "+ ") + (d-e) + " = 0\"";
+                + (d < 0 ? "" : "+ ") + (d - e) + " = 0\"";
         System.out.println(problem);
         System.out.println("Answer in the form \"(x+a)(y+b)=c\"");
         user = scanner.nextLine();
         clean();
         List<String> stuff = parser.parseExpression(user);
         List<String> solution = new ArrayList<>();
-        solution.add("="+e/a);
+        solution.add("=" + e / a);
         solution.add("1x" + (c / a > 0 ? "+" : "") + c / a);
         solution.add("1y" + (b / a > 0 ? "+" : "") + b / a);
         boolean correct = equalLists(stuff, solution);
-        for(String str : solution){
-            System.out.println(str);
-        }
         if (!correct) {
             System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
-            // Pattern pattern = Pattern.compile(".+[x,y]");
-            // Matcher matcher;
-            // for (String str : stuff) {
-            //     matcher = pattern.matcher(str);
-            //     if (matcher.find()) {
-            //         System.out.println(
-            //                 "Incorrect.\nMake sure that you have factored out coefficients if front of the \"x\" and \"y\" (including a \"-\").");
-            //         return false;
-            //     }
-            // }
             System.out.println("Incorrect");
             return false;
         }
@@ -145,6 +135,59 @@ public class SFFT {
         return correct;
     }
 
+    public boolean generateL4() {
+        a = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2));
+        e = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 8) + 2)) * a;
+        b = (int) (((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4))) * a;
+        c = b;
+        while (c == b) {
+            c = (int) ((Math.round(Math.random()) * 2 - 1) * ((Math.random() * 6) + 4)) * a;
+        }
+        d = b * c / a;
+        problem = "Find all ordered pairs of integers (n,m) such that\n" + a + "nm " + (b < 0 ? "" : "+ ") + b + "n "
+                + (c < 0 ? "" : "+ ") + c + "m "
+                + (d < 0 ? "" : "+ ") + (d - e) + " = 0\nis satisfied";
+        System.out.println(problem);
+        System.out.println("Answer in the form \"(n,m),(n2,m2),...\"");
+        user = scanner.nextLine();
+        clean();
+        List<String> stuff = parser.parseExpression(user);
+        Map<Integer, Integer> stuffy = new HashMap<>();
+        for (int i = stuff.size() - 1; i >= 0; i--) {
+            if (stuff.get(i).equals(",")) {
+                stuff.remove(i);
+            }
+        }
+        for (int i = stuff.size() - 1; i >= 0; i--) {
+            String str = stuff.get(i);
+            int o = str.indexOf(',');
+            if (o == -1) {
+                System.out.println("You don't know how to format, check yo commas.");
+                return false;
+            }
+            try {
+                stuffy.put(Integer.parseInt(str.substring(0, o)), Integer.parseInt(str.substring(o + 1)));
+            } catch (Exception e) {
+                System.out.println("I can't read this...\nOnly ints, commas, and parens please.");
+                return false;
+            }
+        }
+        int n = e/a;
+        // Map<Integer, Integer> factors = new HashMap<>();
+        // for (int i = -n; i <= n; i++) {
+        //     if (n % i == 0) {
+        //         factors.put(n, i / n);
+        //     }
+        // }
+        // boolean correct = equalLists(stuff, solution);
+        if (!correct) {
+            System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
+            System.out.println("Incorrect");
+            return false;
+        }
+        System.out.println("Correct");
+        return correct;
+    }
 
     public void errors1() {
         Pattern pattern = Pattern.compile(
@@ -171,10 +214,12 @@ public class SFFT {
         }
         System.out.println("You are incorrect, and I don't know what your error is. You probably mistyped somthing.");
     }
+
     public void clean() {
         user = user.replaceAll(" ", "");
         user = user.replaceAll("\\*", "");
     }
+
     public boolean equalLists(List<String> one, List<String> two) {
         if (one == null && two == null) {
             return true;
