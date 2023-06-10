@@ -344,7 +344,7 @@ class SFFTRunner {
         SFFT sfft = new SFFT(scanner, parser);
         System.out.println("What level of difficulty (int 1-4) do you want to start at?");
         int level = Integer.parseInt(scanner.nextLine());
-        for (int i = level; i < 5; i++) {
+        for (; level < 5; level++) {
             if (level == 1) {
                 System.out.println(
                         "\nWelcome to level one!\nThis is a basic introduction to Simon's Favorite Factoring Trick (SFFT).\nSFFT is used when we need to factor expression with multiple variables, typically x,y or m,n.");
@@ -403,7 +403,8 @@ class SFFTRunner {
         System.out.println("What took 20+ hours of coding will only take me 10 min to fully explain to you.");
         System.out.println("These problems were more computationaly heavy than anything on math team ever will be.");
         System.out.println("We are not as much math as we are cool tricks.");
-        System.out.println("If you ever need help with math for school or fun, contact me. I will be very lonely in college.");
+        System.out.println(
+                "If you ever need help with math for school or fun, contact me. I will be very lonely in college.");
         scanner.close();
     }
 }
