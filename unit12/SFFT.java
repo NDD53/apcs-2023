@@ -80,7 +80,7 @@ public class SFFT {
         System.out.println("Answer in the form \"a(x+b)(y+c)\"");
         user = scanner.nextLine();
         clean();
-        List<String> stuff = parser.parseExpression(user);
+        List<String> stuff = parser.parseExpression(user, false);
         List<String> solution = new ArrayList<>();
         solution.add("" + a);
         solution.add("1x" + (c / a > 0 ? "+" : "") + c / a);
@@ -120,7 +120,7 @@ public class SFFT {
         System.out.println("Answer in the form \"(x+a)(y+b)=c\"");
         user = scanner.nextLine();
         clean();
-        List<String> stuff = parser.parseExpression(user);
+        List<String> stuff = parser.parseExpression(user, false);
         List<String> solution = new ArrayList<>();
         solution.add("=" + e / a);
         solution.add("1x" + (c / a > 0 ? "+" : "") + c / a);
@@ -146,12 +146,12 @@ public class SFFT {
         d = b * c / a;
         problem = "Find all ordered pairs of integers (n,m) such that\n" + a + "nm " + (b < 0 ? "" : "+ ") + b + "n "
                 + (c < 0 ? "" : "+ ") + c + "m "
-                + (d < 0 ? "" : "+ ") + (d - e) + " = 0\nis satisfied";
+                + (d < 0 ? "" : "+ ") + (d - e) + " = 0\nis satisfied.";
         System.out.println(problem);
         System.out.println("Answer in the form \"(n,m),(n2,m2),...\"");
         user = scanner.nextLine();
         clean();
-        List<String> stuff = parser.parseExpression(user);
+        List<String> stuff = parser.parseExpression(user, true);
         Map<Integer, Integer> stuffy = new HashMap<>();
         for (int i = stuff.size() - 1; i >= 0; i--) {
             if (stuff.get(i).equals(",")) {
@@ -172,17 +172,22 @@ public class SFFT {
                 return false;
             }
         }
-        int n = e/a;
-        // Map<Integer, Integer> factors = new HashMap<>();
-        // for (int i = -n; i <= n; i++) {
-        //     if (n % i == 0) {
-        //         factors.put(n, i / n);
-        //     }
-        // }
-        // boolean correct = equalLists(stuff, solution);
+        int n = e / a;
+        Map<Integer, Integer> solution = new HashMap<>();
+        for (int i = -Math.abs(n); i <= Math.abs(n); i++) {
+            if (i != 0) {
+                if (n % i == 0) {
+                    solution.put(i - (c / a), (n / i) - (b / a));
+                }
+            }
+        }
+        solution.entrySet().stream().sorted(Map.Entry.<Integer, Integer>comparingByKey());
+        stuffy.entrySet().stream().sorted(Map.Entry.<Integer, Integer>comparingByKey());
+        boolean correct = solution.equals(stuffy);
+        System.out.println("correct:" + correct);
         if (!correct) {
-            System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
             System.out.println("Incorrect");
+            System.out.println("Remeber that an integer can be positive or negative.");
             return false;
         }
         System.out.println("Correct");
@@ -272,7 +277,7 @@ class SFFTparser {
         return "" + (a != Integer.MIN_VALUE ? "" + a + v + (b >= 0 ? "+" : "") : "") + b;
     }
 
-    public List<String> parseExpression(String expression) {
+    public List<String> parseExpression(String expression, boolean l4) {
         List<String> factors = new ArrayList<String>();
         int parenthesesCount = 0;
         StringBuilder factorBuilder = new StringBuilder();
@@ -306,7 +311,7 @@ class SFFTparser {
             for (int i = factors.size() - 1; i > -1; i--) {
                 String factor = factors.get(i);
                 if (factor.indexOf('(') != -1) {
-                    List<String> hold = parseExpression(factor);
+                    List<String> hold = parseExpression(factor, l4);
                     for (String element : hold) {
                         factors.add(element);
                     }
@@ -314,8 +319,10 @@ class SFFTparser {
                 }
             }
         }
-        for (int i = factors.size() - 1; i > -1; i--) {
-            factors.set(i, subFactor(factors.get(i)));
+        if (!l4) {
+            for (int i = factors.size() - 1; i > -1; i--) {
+                factors.set(i, subFactor(factors.get(i)));
+            }
         }
         return factors;
     }
@@ -335,7 +342,68 @@ class SFFTRunner {
         SFFTparser parser = new SFFTparser();
         Scanner scanner = new Scanner(System.in);
         SFFT sfft = new SFFT(scanner, parser);
-        sfft.question(3);
+        System.out.println("What level of difficulty (int 1-4) do you want to start at?");
+        int level = Integer.parseInt(scanner.nextLine());
+        for (int i = level; i < 5; i++) {
+            if (level == 1) {
+                System.out.println(
+                        "\nWelcome to level one!\nThis is a basic introduction to Simon's Favorite Factoring Trick (SFFT).\nSFFT is used when we need to factor expression with multiple variables, typically x,y or m,n.");
+                System.out
+                        .println("This level has pretty decent error detection, and I encourage you to just jump in.");
+                System.out.println("If you want to read up on what we are actually doing, these are great resources:");
+                System.out.println("https://www.youtube.com/watch?v=0nN3H7w2LnI");
+                System.out.println("https://artofproblemsolving.com/wiki/index.php/Simon%27s_Favorite_Factoring_Trick");
+            }
+            if (level == 2) {
+                System.out.println(
+                        "\nWelcome to level two!");
+                System.out.println("This time, there is a constant in front of the \"xy\" term.");
+                System.out.println("Never fear though, it factors out nice.");
+                System.out.println("In the real world, expect dome fractions.");
+                System.out.println("In these problems, you ALWAYS factor out the constant in front of \"xy\" first.");
+            }
+            if (level == 3) {
+                System.out.println("Welcome to level 3!");
+                System.out.println("This is basically level two, but it doesn't always factor nice.");
+                System.out.println(
+                        "The trick is to factor the lhs as normal, then bring the remaining constant to the rhs.");
+                System.out.println(
+                        "If you remember completing the square, this is essentially the same process but with two variables.");
+            }
+            if (level == 4) {
+                System.out.println("Welcome to level 4!");
+                System.out.println("This is where stuff gets real");
+                System.out.println(
+                        "I have changed the variables to \"m\" and \"n\" because that is what you will see in math contests,");
+                System.out
+                        .println("The idea here is to simplify the equation into the answers to the level 3 problems.");
+                System.out.println(
+                        "Realize that we are only with integers, and adding or multiplying integers results in integers.");
+                System.out.println("This means that we need two numbers that multiply to another number...");
+                System.out.println("FACTORS!!!!!!");
+                System.out.println("Write out all the factors for the constant on the lhs.");
+                System.out.println("Each expression inside the parens will have to equal a factor.");
+                System.out.println("This might take a lot of work, but making a table will help you.");
+            }
+            for (int score = 0; score < 5 - level;) {
+                System.out.println("");
+                boolean correct = sfft.question(level);
+                System.out.println("");
+                if (correct) {
+                    score++;
+                }
+            }
+        }
+        System.out.println("You made it!");
+        System.out.println("This is a type of problem very similar to what you will see in math competitions.");
+        System.out.println("If you want more practice with more dynamic problems, visit:");
+        System.out.println("https://artofproblemsolving.com/alcumus");
+        System.out.println("and navigate to change focus --> algebra --> Simons Favorite Factoring Trick");
+        System.out.println("If you are seeing this message, you would be great on math team.");
+        System.out.println("What took 20+ hours of coding will only take me 10 min to fully explain to you.");
+        System.out.println("These problems were more computationaly heavy than anything on math team ever will be.");
+        System.out.println("We are not as much math as we are cool tricks.");
+        System.out.println("If you ever need help with math for school or fun, contact me. I will be very lonely in college.");
         scanner.close();
     }
 }
