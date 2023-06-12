@@ -27,7 +27,7 @@ It can tell you if your answer is correct, as well as help you identify some mis
 
 Don't.
 
-Instead, learn SFFT through [this video](https://www.youtube.com/watch?v=0nN3H7w2LnI) or [this site](https://artofproblemsolving.com/wiki/index.php/Simon%27s_Favorite_Factoring_Trick). After that practice on [AOPS](https://artofproblemsolving.com/alcumus) by signing up, pressing play --> change focus --> algebra (in the top right corner) --> Simon's Favorite Factoring Trick (in settings set problem difficulty to easy). While my code works and will get you there, It uses random numbers to generate simple problems that are often not fun, even for me. You will learn much better through AOPS. 
+Instead, learn SFFT through [this video](https://www.youtube.com/watch?v=0nN3H7w2LnI) or [this site](https://artofproblemsolving.com/wiki/index.php/Simon%27s_Favorite_Factoring_Trick). After that practice on [AOPS](https://artofproblemsolving.com/alcumus) by signing up, pressing play --> change focus --> algebra (in the top right corner) --> Simon's Favorite Factoring Trick (in settings set problem difficulty to easy). While my code works and will get you there, it uses random numbers to generate simple problems that are often not fun, even for me. You will learn much better through AOPS. 
 
 If you enjoyed SFFT, you should consider joining math team. We do fun problems using cool tricks (like SFFT), and even get to compete against other schools. We do not care about your prior math experience or what class you are in :)
 
