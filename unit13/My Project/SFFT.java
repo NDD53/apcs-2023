@@ -1,4 +1,4 @@
-package unit12;
+package unit13;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -61,6 +61,7 @@ public class SFFT {
             System.out.println("Correct");
             return true;
         } else {
+            System.out.println("Incorrect");
             errors1();
             return false;
         }
@@ -87,7 +88,6 @@ public class SFFT {
         solution.add("1y" + (b / a > 0 ? "+" : "") + b / a);
         boolean correct = equalLists(stuff, solution);
         if (!correct) {
-            System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
             Pattern pattern = Pattern.compile(".+[x,y]");
             Matcher matcher;
             for (String str : stuff) {
@@ -127,7 +127,6 @@ public class SFFT {
         solution.add("1y" + (b / a > 0 ? "+" : "") + b / a);
         boolean correct = equalLists(stuff, solution);
         if (!correct) {
-            System.out.println("WRONG\nHAHAHAHAHAHAHAHAHAH");
             System.out.println("Incorrect");
             return false;
         }
@@ -162,12 +161,14 @@ public class SFFT {
             String str = stuff.get(i);
             int o = str.indexOf(',');
             if (o == -1) {
+                System.out.println("Incorrect");
                 System.out.println("You don't know how to format, check yo commas.");
                 return false;
             }
             try {
                 stuffy.put(Integer.parseInt(str.substring(0, o)), Integer.parseInt(str.substring(o + 1)));
             } catch (Exception e) {
+                System.out.println("Incorrect");
                 System.out.println("I can't read this...\nOnly ints, commas, and parens please.");
                 return false;
             }
@@ -184,7 +185,6 @@ public class SFFT {
         solution.entrySet().stream().sorted(Map.Entry.<Integer, Integer>comparingByKey());
         stuffy.entrySet().stream().sorted(Map.Entry.<Integer, Integer>comparingByKey());
         boolean correct = solution.equals(stuffy);
-        System.out.println("correct:" + correct);
         if (!correct) {
             System.out.println("Incorrect");
             System.out.println("Remeber that an integer can be positive or negative.");
@@ -363,7 +363,7 @@ class SFFTRunner {
                 System.out.println("In these problems, you ALWAYS factor out the constant in front of \"xy\" first.");
             }
             if (level == 3) {
-                System.out.println("Welcome to level 3!");
+                System.out.println("\nWelcome to level 3!");
                 System.out.println("This is basically level two, but it doesn't always factor nice.");
                 System.out.println(
                         "The trick is to factor the lhs as normal, then bring the remaining constant to the rhs.");
@@ -371,7 +371,7 @@ class SFFTRunner {
                         "If you remember completing the square, this is essentially the same process but with two variables.");
             }
             if (level == 4) {
-                System.out.println("Welcome to level 4!");
+                System.out.println("\nWelcome to level 4!");
                 System.out.println("This is where stuff gets real");
                 System.out.println(
                         "I have changed the variables to \"m\" and \"n\" because that is what you will see in math contests,");
