@@ -15,11 +15,11 @@ I learned:
 
 ## Why this cool
 
-# Why SFFT is cool
+### Why SFFT is cool
 
 You can easily find ALL the times that an equation like 3xy + 15x - 42y + 108 = 0 crosses through integer (x,y) coordinates using a simple trick. If you don't think this is cool, I can't help you.
 
-# Why my code is cool
+### Why my code is cool
 
 It can tell you if your answer is correct, as well as help you identify some mistakes. Also, it uses recursion to interpret whatever goofy parentheses you used in your input.
 
